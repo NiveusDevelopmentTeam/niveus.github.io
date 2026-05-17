@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Niveus — Dev Team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050508;
+    --surface: #0d0d14;
+    --surface2: #131320;
+    --border: rgba(255,255,255,0.06);
+    --border-glow: rgba(120,100,255,0.25);
+    --accent: #7864ff;
+    --accent2: #4860ff;
+    --accent-glow: rgba(120,100,255,0.15);
+    --text: #f0eeff;
+    --muted: #7a7890;
+    --muted2: #4a4860;
+    --green: #2de0a5;
+    --green-glow: rgba(45,224,165,0.12);
+    --pink: #ff6090;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(5,5,8,0.85);
+    backdrop-filter: blur(16px);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem; font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #a090ff 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .nav-links { display: flex; gap: 2.5rem; }
+  .nav-links a {
+    font-size: 0.85rem; color: var(--muted); text-decoration: none;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    font-size: 0.8rem; font-family: 'DM Mono', monospace;
+    color: var(--accent); border: 1px solid var(--accent);
+    padding: 0.45rem 1.1rem; border-radius: 4px; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent); color: #fff; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 7rem 2rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(120,100,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(120,100,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
+  }
+  .hero-orb {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(120,100,255,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+    50% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 780px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    color: var(--green); border: 1px solid rgba(45,224,165,0.3);
+    padding: 0.35rem 0.85rem; border-radius: 100px;
+    margin-bottom: 2rem;
+    background: var(--green-glow);
+    letter-spacing: 0.08em;
+  }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 1.5s ease-in-out infinite; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3.5rem, 9vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+  }
+  .hero-title .line1 { display: block; color: #fff; }
+  .hero-title .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--pink) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-desc {
+    font-size: 1.1rem; color: var(--muted); max-width: 520px; margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    font-family: 'DM Mono', monospace; font-size: 0.85rem;
+    background: var(--accent); color: #fff;
+    padding: 0.8rem 2rem; border-radius: 6px;
+    text-decoration: none; transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+  .btn-primary:hover { background: #6050ee; transform: translateY(-2px); }
+  .btn-ghost {
+    font-family: 'DM Mono', monospace; font-size: 0.85rem;
+    color: var(--muted); border: 1px solid var(--border);
+    padding: 0.8rem 2rem; border-radius: 6px;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 7rem 2rem; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: 'DM Mono', monospace; font-size: 0.7rem;
+    color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;
+    margin-bottom: 1.25rem;
+  }
+  .section-desc { color: var(--muted); font-size: 1.05rem; max-width: 560px; line-height: 1.7; }
+
+  /* ── ABOUT ── */
+  .about { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
+  .stat-card {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.5rem;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800;
+    background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+  .about-visual {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    height: 360px;
+  }
+  .about-ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid var(--border-glow);
+    animation: spin linear infinite;
+  }
+  .ring1 { width: 280px; height: 280px; animation-duration: 20s; }
+  .ring2 { width: 200px; height: 200px; animation-duration: 14s; animation-direction: reverse; }
+  .ring3 { width: 120px; height: 120px; animation-duration: 8s; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .ring1::after, .ring2::after, .ring3::after {
+    content: ''; position: absolute; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); top: -4px; left: 50%; transform: translateX(-50%);
+    box-shadow: 0 0 12px var(--accent);
+  }
+  .about-core {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    display: flex; align-items: center; justify-content: center; position: relative; z-index: 2;
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: #fff;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1rem; }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+  .project-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 2rem;
+    transition: all 0.3s; position: relative; overflow: hidden;
+    cursor: pointer;
+  }
+  .project-card::before {
+    content: ''; position: absolute; inset: 0; opacity: 0;
+    background: var(--accent-glow); transition: opacity 0.3s;
+    border-radius: 14px;
+  }
+  .project-card:hover { border-color: var(--border-glow); transform: translateY(-4px); }
+  .project-card:hover::before { opacity: 1; }
+  .project-card.featured { border-color: rgba(120,100,255,0.3); grid-column: span 2; }
+  @media (max-width: 700px) { .project-card.featured { grid-column: span 1; } }
+  .project-tag {
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    display: inline-block; padding: 0.25rem 0.65rem;
+    border-radius: 100px; margin-bottom: 1.25rem; position: relative; z-index: 1;
+  }
+  .tag-bot { background: rgba(120,100,255,0.15); color: var(--accent); border: 1px solid rgba(120,100,255,0.25); }
+  .tag-ai { background: rgba(45,224,165,0.1); color: var(--green); border: 1px solid rgba(45,224,165,0.2); }
+  .project-name {
+    font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 700;
+    margin-bottom: 0.5rem; position: relative; z-index: 1;
+  }
+  .project-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+  .project-features { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+  .feature-pill {
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--muted); padding: 0.3rem 0.75rem; border-radius: 100px;
+  }
+  .project-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--border); padding-top: 1rem; position: relative; z-index: 1;
+  }
+  .project-lang { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted2); }
+  .project-link {
+    font-size: 0.8rem; color: var(--accent); text-decoration: none;
+    display: flex; align-items: center; gap: 0.3rem;
+    transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 0.5rem; }
+
+  /* ── TECH STACK ── */
+  .stack { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .stack-header { text-align: center; margin-bottom: 4rem; }
+  .stack-header .section-desc { margin: 0 auto; }
+  .stack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; }
+  .stack-item {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem 1rem;
+    text-align: center; transition: all 0.2s;
+  }
+  .stack-item:hover { border-color: var(--border-glow); background: rgba(120,100,255,0.06); }
+  .stack-icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
+  .stack-name { font-size: 0.82rem; font-weight: 500; margin-bottom: 0.2rem; }
+  .stack-role { font-size: 0.7rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+  /* ── TEAM ── */
+  .team-header { text-align: center; margin-bottom: 4rem; }
+  .team-header .section-desc { margin: 0 auto; }
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+  .team-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 2rem; text-align: center;
+    transition: all 0.3s;
+  }
+  .team-card:hover { border-color: var(--border-glow); transform: translateY(-3px); }
+  .team-avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.3rem;
+    margin: 0 auto 1.25rem; position: relative;
+  }
+  .team-avatar::after {
+    content: ''; position: absolute; inset: -3px; border-radius: 50%;
+    border: 1px solid transparent; background: linear-gradient(135deg, var(--accent), var(--pink)) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out; mask-composite: exclude;
+  }
+  .av-purple { background: rgba(120,100,255,0.15); color: var(--accent); }
+  .av-green { background: rgba(45,224,165,0.12); color: var(--green); }
+  .av-pink { background: rgba(255,96,144,0.12); color: var(--pink); }
+  .av-blue { background: rgba(72,96,255,0.15); color: #6080ff; }
+  .team-name { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .team-handle {
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    color: var(--accent); margin-bottom: 0.5rem;
+  }
+  .team-role { font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; }
+  .team-skills { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; }
+  .skill-tag {
+    font-size: 0.68rem; font-family: 'DM Mono', monospace;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--muted); padding: 0.2rem 0.6rem; border-radius: 100px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--muted); }
+  .footer-copy { font-size: 0.78rem; color: var(--muted2); font-family: 'DM Mono', monospace; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.78rem; color: var(--muted2); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--muted); }
+
+  /* ── ANIMATIONS ── */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-visual { height: 260px; }
+    footer { justify-content: center; text-align: center; }
+  }
+
+  /* Command showcase */
+  .commands-section { padding: 0 2rem 7rem; }
+  .commands-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 3rem; }
+  .cmd-card {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem 1.5rem;
+    transition: all 0.2s;
+  }
+  .cmd-card:hover { border-color: var(--border-glow); }
+  .cmd-name {
+    font-family: 'DM Mono', monospace; font-size: 0.9rem;
+    color: var(--accent); margin-bottom: 0.4rem;
+  }
+  .cmd-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">NIVEUS</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#stack">Stack</a>
+    <a href="#team">Team</a>
+  </div>
+  <a href="https://github.com" class="nav-cta">GitHub →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Active Development</div>
+    <h1 class="hero-title">
+      <span class="line1">We Build</span>
+      <span class="line2">Niveus.</span>
+    </h1>
+    <p class="hero-desc">
+      A small, focused dev team crafting Discord bots and AI-powered tools. From server automation to intelligent assistants — we ship things that work.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">See Our Work</a>
+      <a href="#team" class="btn-ghost">Meet the Team</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="fade-in">
+        <div class="section-label">Who We Are</div>
+        <h2 class="section-title">Small team.<br>Serious builds.</h2>
+        <p class="section-desc">
+          Niveus is an independent development team focused on building tools for Discord communities and AI-driven applications. We move fast, write clean code, and care about the experience.
+        </p>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-num">2+</div>
+            <div class="stat-label">Active projects</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Commands deployed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">AI</div>
+            <div class="stat-label">Elisia assistant</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">v1</div>
+            <div class="stat-label">Always shipping</div>
+          </div>
+        </div>
+      </div>
+      <div class="fade-in">
+        <div class="about-visual">
+          <div class="about-ring ring1"></div>
+          <div class="about-ring ring2"></div>
+          <div class="about-ring ring3"></div>
+          <div class="about-core">NV</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="padding: 7rem 2rem;">
+  <div class="container">
+    <div class="projects-header fade-in">
+      <div>
+        <div class="section-label">Our Projects</div>
+        <h2 class="section-title">What we've built</h2>
+      </div>
+      <p class="section-desc" style="max-width:360px;">Two repositories, two different problems — one for community management, one for AI.</p>
+    </div>
+    <div class="projects-grid">
+
+      <!-- SPECTRA / whoask -->
+      <div class="project-card featured fade-in">
+        <span class="project-tag tag-bot">Discord Bot</span>
+        <h3 class="project-name">SPECTRA</h3>
+        <p class="project-desc">
+          A full-featured Discord slash-command bot for serious roleplay and gaming communities. Handles SSU voting, game session announcements, deployment alerts, and custom server announcements — all with rich embeds and role-gated access.
+        </p>
+        <div class="project-features">
+          <span class="feature-pill">/ssu vote</span>
+          <span class="feature-pill">/game session</span>
+          <span class="feature-pill">/deploy</span>
+          <span class="feature-pill">/announce</span>
+          <span class="feature-pill">Role gating</span>
+          <span class="feature-pill">Rich embeds</span>
+          <span class="feature-pill">5-min voting</span>
+        </div>
+        <div class="project-footer">
+          <span class="project-lang">Python · discord.py</span>
+          <a class="project-link" href="https://github.com">View on GitHub →</a>
+        </div>
+      </div>
+
+      <!-- Elisia AI -->
+      <div class="project-card fade-in">
+        <span class="project-tag tag-ai">AI Assistant</span>
+        <h3 class="project-name">Elisia</h3>
+        <p class="project-desc">
+          A locally-running AI assistant with emotional intelligence, persistent memory, and a custom personality. Built modular with a brain, LLM layer, emotion engine, and memory system. Created by carbomint.
+        </p>
+        <div class="project-features">
+          <span class="feature-pill">Emotion Engine</span>
+          <span class="feature-pill">Long-term Memory</span>
+          <span class="feature-pill">LLM Core</span>
+          <span class="feature-pill">Discord integration</span>
+        </div>
+        <div class="project-footer">
+          <span class="project-lang">Python · LLM</span>
+          <a class="project-link" href="https://github.com">View on GitHub →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMMANDS -->
+<div class="commands-section">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label">SPECTRA Commands</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:0.5rem;">Slash commands that run communities</h3>
+      <p style="color:var(--muted);font-size:0.9rem;">Every command is role-gated and returns a rich Discord embed.</p>
+    </div>
+    <div class="commands-grid">
+      <div class="cmd-card fade-in">
+        <div class="cmd-name">/ssu</div>
+        <div class="cmd-desc">Start a 5-minute voting session for Serious, Semi-Serious, or Casual roleplay mode.</div>
+      </div>
+      <div class="cmd-card fade-in">
+        <div class="cmd-name">/game</div>
+        <div class="cmd-desc">Announce a live game session with host info, mode, player count, and an Ask to Join button.</div>
+      </div>
+      <div class="cmd-card fade-in">
+        <div class="cmd-name">/deploy</div>
+        <div class="cmd-desc">Post a deployment announcement with host, co-hosts, mode selection, and optional banner image.</div>
+      </div>
+      <div class="cmd-card fade-in">
+        <div class="cmd-name">/announce</div>
+        <div class="cmd-desc">Send custom announcements to a channel with optional role mentions.</div>
+      </div>
+      <div class="cmd-card fade-in">
+        <div class="cmd-name">/delete_announce</div>
+        <div class="cmd-desc">Clean up announcements by message ID or the latest bot message in a channel.</div>
+      </div>
+      <div class="cmd-card fade-in">
+        <div class="cmd-name">/shutdown</div>
+        <div class="cmd-desc">Owner-only command to safely shutdown the bot instance.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STACK -->
+<section class="stack" id="stack">
+  <div class="container">
+    <div class="stack-header fade-in">
+      <div class="section-label">Technology</div>
+      <h2 class="section-title">Our Stack</h2>
+      <p class="section-desc">The tools we reach for when building.</p>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-item fade-in">
+        <div class="stack-icon">🐍</div>
+        <div class="stack-name">Python</div>
+        <div class="stack-role">primary lang</div>
+      </div>
+      <div class="stack-item fade-in">
+        <div class="stack-icon">⚡</div>
+        <div class="stack-name">discord.py</div>
+        <div class="stack-role">bot framework</div>
+      </div>
+      <div class="stack-item fade-in">
+        <div class="stack-icon">🧠</div>
+        <div class="stack-name">LLM / Ollama</div>
+        <div class="stack-role">AI inference</div>
+      </div>
+      <div class="stack-item fade-in">
+        <div class="stack-icon">💾</div>
+        <div class="stack-name">JSON Memory</div>
+        <div class="stack-role">persistence</div>
+      </div>
+      <div class="stack-item fade-in">
+        <div class="stack-icon">🔧</div>
+        <div class="stack-name">App Commands</div>
+        <div class="stack-role">slash API</div>
+      </div>
+      <div class="stack-item fade-in">
+        <div class="stack-icon">🌿</div>
+        <div class="stack-name">dotenv</div>
+        <div class="stack-role">config</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="container">
+    <div class="team-header fade-in">
+      <div class="section-label">The People</div>
+      <h2 class="section-title">Niveus Dev Team</h2>
+      <p class="section-desc">The builders behind the bots and the AI.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card fade-in">
+        <div class="team-avatar av-purple">CB</div>
+        <div class="team-name">carbomint</div>
+        <div class="team-handle">@carbomint</div>
+        <div class="team-role">Founder · AI Engineer</div>
+        <div class="team-skills">
+          <span class="skill-tag">Elisia AI</span>
+          <span class="skill-tag">LLM</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Memory Systems</span>
+        </div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar av-blue">SP</div>
+        <div class="team-name">SPECTRA Dev</div>
+        <div class="team-handle">@920842715351113728</div>
+        <div class="team-role">Bot Developer</div>
+        <div class="team-skills">
+          <span class="skill-tag">SPECTRA</span>
+          <span class="skill-tag">discord.py</span>
+          <span class="skill-tag">Slash Commands</span>
+          <span class="skill-tag">Embeds</span>
+        </div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar av-green">NV</div>
+        <div class="team-name">Niveus</div>
+        <div class="team-handle">@niveus</div>
+        <div class="team-role">Open Contributor</div>
+        <div class="team-skills">
+          <span class="skill-tag">Community</span>
+          <span class="skill-tag">Open Source</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">NIVEUS</div>
+  <div class="footer-copy">© 2025 Niveus Dev Team · All rights reserved</div>
+  <div class="footer-links">
+    <a href="https://github.com">GitHub</a>
+    <a href="#projects">Projects</a>
+    <a href="#team">Team</a>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
